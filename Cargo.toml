@@ -12,8 +12,8 @@ readme = "README.md"
 license = "MIT"
 
 [dependencies]
-bdk = "^0.2"
-bdk-macros = "^0.2"
+bdk = { git = "https://github.com/justinmoon/bdk.git", branch = "tokio", default-features = false, features = ["compiler"] }
+bdk-macros = { git = "https://github.com/justinmoon/bdk.git", branch = "tokio"}
 structopt = "^0.3"
 serde_json = { version = "^1.0" }
 log = "^0.4"
@@ -35,4 +35,4 @@ esplora = ["bdk/esplora"]
 [[bin]]
 name = "bdk-cli"
 path = "src/bdk_cli.rs"
-required-features = ["repl"]
+required-features = ["repl", "bdk/key-value-db"]

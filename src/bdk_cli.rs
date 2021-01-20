@@ -106,7 +106,7 @@ fn main() {
             url: cli_opt.electrum,
             socks5: cli_opt.proxy,
             retry: 10,
-            timeout: 10,
+            timeout: Some(10),
         }));
 
     let wallet = Wallet::new(
