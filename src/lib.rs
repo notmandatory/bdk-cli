@@ -265,7 +265,7 @@ pub struct CliOpts {
         name = "NETWORK",
         short = "n",
         long = "network",
-        default_value = "testnet"
+        default_value = "regtest"
     )]
     pub network: Network,
     /// Top level cli sub-command
@@ -2040,7 +2040,7 @@ mod test {
         let cli_opts = CliOpts::from_iter(&cli_args);
 
         let expected_cli_opts = CliOpts {
-            network: Network::Testnet,
+            network: Network::Regtest,
             subcommand: CliSubCommand::Compile {
                 policy: "thresh(3,pk(Alice),pk(Bob),pk(Carol),older(2))".to_string(),
                 script_type: "sh-wsh".to_string(),
@@ -2054,7 +2054,7 @@ mod test {
     #[test]
     fn test_compile() {
         let result = handle_compile_subcommand(
-            Network::Testnet,
+            Network::Regtest,
             "thresh(3,pk(Alice),pk(Bob),pk(Carol),older(2))".to_string(),
             "sh-wsh".to_string(),
         )
