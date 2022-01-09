@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace `wallet bump_fee` command `--send_all` with new `--shrink` option
 - Add 'reserve' feature to enable proof of reserve
 - If no wallet name is provided, derive one from the descriptor instead of using "main"
+- Add `regtest-*` features to automatically deploy local regtest nodes
+(bitcoind, and electrs) while running cli commands.
 
 ## [0.3.0]
 
