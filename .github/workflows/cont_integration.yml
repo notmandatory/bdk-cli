@@ -19,11 +19,16 @@ jobs:
           - esplora-reqwest
           - compiler
           - compact_filters
+          - rpc
           - reserves
           - reserves,electrum
           - reserves,esplora-ureq
           - reserves,compact_filters
-          - rpc
+          - regtest-bitcoin
+          - regtest-electrum
+          - regtest-esplora-ureq
+          - regtest-esplora-reqwest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
