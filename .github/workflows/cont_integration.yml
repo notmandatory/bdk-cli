@@ -24,10 +24,10 @@ jobs:
           - reserves,electrum
           - reserves,esplora-ureq
           - reserves,compact_filters
-          - regtest-bitcoin
-          - regtest-electrum
-          - regtest-esplora-ureq
-          - regtest-esplora-reqwest
+          - regtest,rpc
+          - regtest,electrum
+          - regtest,esplora-ureq
+          - regtest,esplora-reqwest
 
     steps:
       - name: Checkout

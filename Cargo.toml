@@ -42,11 +42,7 @@ compiler = ["bdk/compiler"]
 compact_filters = ["bdk/compact_filters"]
 rpc = ["bdk/rpc"]
 reserves = ["bdk-reserves"]
-regtest-node = []
-regtest-bitcoin = ["regtest-node" , "rpc", "electrsd"]
-regtest-electrum = ["regtest-node", "electrum", "electrsd/electrs_0_8_10"]
-regtest-esplora-ureq = ["regtest-node", "esplora-ureq", "electrsd/esplora_a33e97e1"]
-regtest-esplora-reqwest = ["regtest-node", "esplora-reqwest", "electrsd/esplora_a33e97e1"]
+regtest = ["electrsd/esplora_a33e97e1"]
 
 [[bin]]
 name = "bdk-cli"

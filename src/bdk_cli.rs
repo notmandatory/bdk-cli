@@ -283,7 +283,7 @@ fn main() {
         warn!("This is experimental software and not currently recommended for use on Bitcoin mainnet, proceed with caution.")
     }
 
-    #[cfg(feature = "regtest-node")]
+    #[cfg(feature = "regtest")]
     let bitcoind = {
         if network != Network::Regtest {
             error!("Do not override default network value for `regtest-node` features");
@@ -294,7 +294,7 @@ fn main() {
         electrsd::bitcoind::BitcoinD::with_conf(bitcoind_exe, &bitcoind_conf).unwrap()
     };
 
-    #[cfg(feature = "regtest-bitcoin")]
+    #[cfg(all(feature = "regtest", feature = "rpc"))]
     let backend = {
         Backend::Bitcoin {
             rpc_url: bitcoind.params.rpc_socket.to_string(),
@@ -308,7 +308,7 @@ fn main() {
         }
     };
 
-    #[cfg(feature = "regtest-electrum")]
+    #[cfg(all(feature = "regtest", feature = "electrum"))]
     let (_electrsd, backend) = {
         let elect_conf = electrsd::Conf::default();
         let elect_exe =
@@ -320,7 +320,10 @@ fn main() {
         (electrsd, backend)
     };
 
-    #[cfg(any(feature = "regtest-esplora-ureq", feature = "regtest-esplora-reqwest"))]
+    #[cfg(all(
+        feature = "regtest",
+        any(feature = "esplora-ureq", feature = "esplora-reqwest")
+    ))]
     let (_electrsd, backend) = {
         let mut elect_conf = electrsd::Conf::default();
         elect_conf.http_enabled = true;
@@ -336,7 +339,7 @@ fn main() {
         (electrsd, backend)
     };
 
-    #[cfg(not(feature = "regtest-node"))]
+    #[cfg(not(feature = "regtest"))]
     let backend = Backend::None;
 
     match handle_command(cli_opts, network, backend) {
