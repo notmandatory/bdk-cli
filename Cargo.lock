@@ -88,9 +88,8 @@ dependencies = [
 
 [[package]]
 name = "bdk"
-version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c50e3f08fbcd7eb34f11e066a1353986d583f1f87af70f7cd50bff9fce97c817"
+version = "0.26.0-rc.1"
+source = "git+https://github.com/bitcoindevkit/bdk?tag=v0.26.0-rc.1#c741df746b9dbf8e5df4802eeece796a8eaa1ebb"
 dependencies = [
  "ahash",
  "async-trait",
@@ -119,7 +118,7 @@ dependencies = [
 
 [[package]]
 name = "bdk-cli"
-version = "0.6.0"
+version = "0.26.0"
 dependencies = [
  "base64",
  "bdk",
@@ -159,9 +158,8 @@ dependencies = [
 
 [[package]]
 name = "bdk-reserves"
-version = "0.24.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2983085ed088608518d0b1610d4e5a79d4e7da26d0647c51e7f1bcfdc1a7f230"
+version = "0.26.0"
+source = "git+https://github.com/notmandatory/bdk-reserves.git?branch=update_bdk_026#62d8efdd96ed36457164f2d0c5ea4a20ec1c59a6"
 dependencies = [
  "bdk",
  "bitcoinconsensus",
