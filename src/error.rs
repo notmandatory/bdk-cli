@@ -1,9 +1,11 @@
+use bdk_wallet::bitcoin::hex::HexToBytesError;
+use bdk_wallet::bitcoin::{base64, consensus};
 use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum BDKCliError {
     #[error("BIP39 error: {0}")]
-    BIP39Errror(#[from] bdk_wallet::bip39::Error),
+    BIP39Error(#[from] bdk_wallet::bip39::Error),
 
     #[error("BIP32 error: {0}")]
     BIP32Error(#[from] bdk_wallet::bitcoin::bip32::Error),
@@ -17,9 +19,6 @@ pub enum BDKCliError {
 
     #[error("Create transaction error: {0}")]
     CreateTx(#[from] bdk_wallet::error::CreateTxError),
-
-    #[error("CoreRPC error: {0}")]
-    CoreRPCError(#[from] electrsd::corepc_client::client_sync::Error),
 
     #[error("Descriptor error: {0}")]
     DescriptorError(#[from] bdk_wallet::descriptor::error::Error),
@@ -54,15 +53,29 @@ pub enum BDKCliError {
     #[error("PsbtError: {0}")]
     PsbtError(#[from] bdk_wallet::bitcoin::psbt::Error),
 
-    #[error("Regex error: {0}")]
-    RegexError(#[from] regex::Error),
-
     #[error("Rusqlite error: {0}")]
     RusqliteError(#[from] bdk_wallet::rusqlite::Error),
 
-    #[error("Serde error: {0}")]
-    Serde(#[from] serde_json::Error),
+    #[error("Serde json error: {0}")]
+    SerdeJson(#[from] serde_json::Error),
+
+    #[error("Bitcoin consensus encoding error: {0}")]
+    Serde(#[from] consensus::encode::Error),
 
     #[error("Signer error: {0}")]
     SignerError(#[from] bdk_wallet::signer::SignerError),
+
+    #[cfg(feature = "electrum")]
+    #[error("Electrum error: {0}")]
+    Electrum(#[from] bdk_electrum::electrum_client::Error),
+
+    #[cfg(feature = "esplora")]
+    #[error("Esplora error: {0}")]
+    Esplora(#[from] bdk_esplora::esplora_client::Error),
+
+    #[error("Chain connect error: {0}")]
+    Chain(#[from] bdk_wallet::chain::local_chain::CannotConnectError),
+
+    #[error("Consensus decoding error: {0}")]
+    Hex(#[from] HexToBytesError),
 }
