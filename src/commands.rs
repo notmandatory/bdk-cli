@@ -13,11 +13,13 @@
 //! All subcommands are defined in the below enums.
 
 #![allow(clippy::large_enum_variant)]
+
 use bdk_wallet::bitcoin::{
     Address, Network, OutPoint, ScriptBuf,
     bip32::{DerivationPath, Xpriv},
 };
 use clap::{Args, Parser, Subcommand, ValueEnum, value_parser};
+use std::net::SocketAddr;
 
 #[cfg(any(feature = "electrum", feature = "esplora", feature = "rpc"))]
 use crate::utils::parse_proxy_auth;
@@ -258,6 +260,9 @@ pub struct ProxyOpts {
 #[cfg(feature = "cbf")]
 #[derive(Debug, Args, Clone, PartialEq, Eq)]
 pub struct CompactFilterOpts {
+    /// Peer node expected to support CBF, multiple allowed.
+    #[clap(name = "IP:PORT", long = "cbf-peer")]
+    pub peers: Vec<SocketAddr>,
     /// Sets the number of parallel node connections.
     #[clap(name = "CONNECTIONS", long = "cbf-conn-count", default_value = "2", value_parser = value_parser!(u8).range(1..=15))]
     pub conn_count: u8,

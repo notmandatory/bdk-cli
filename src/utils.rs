@@ -18,6 +18,7 @@ use std::{
 };
 
 use crate::commands::WalletOpts;
+use bdk_kyoto::TrustedPeer;
 #[cfg(feature = "cbf")]
 use bdk_kyoto::{
     BuilderExt, Info, LightClient, Receiver, ScanType::Sync, UnboundedReceiver, Warning,
@@ -48,6 +49,7 @@ use bdk_wallet::Wallet;
 use bdk_wallet::{PersistedWallet, WalletPersister};
 
 use bdk_wallet::bip39::{Language, Mnemonic};
+use bdk_wallet::bitcoin::p2p::ServiceFlags;
 use bdk_wallet::bitcoin::{
     Address, Network, OutPoint, ScriptBuf, bip32::Xpriv, secp256k1::Secp256k1,
 };
@@ -223,8 +225,19 @@ pub(crate) fn new_blockchain_client(
         ClientType::Cbf => {
             let scan_type = Sync;
             let builder = Builder::new(_wallet.network());
-
+            let peers = wallet_opts
+                .compactfilter_opts
+                .peers
+                .iter()
+                .clone()
+                .map(|sa| {
+                    let mut tp = TrustedPeer::from_socket_addr(*sa);
+                    tp.set_services(ServiceFlags::COMPACT_FILTERS);
+                    tp
+                })
+                .collect::<Vec<TrustedPeer>>();
             let light_client = builder
+                .add_peers(peers)
                 .required_peers(wallet_opts.compactfilter_opts.conn_count)
                 .data_dir(&_datadir)
                 .build_with_wallet(_wallet, scan_type)?;
